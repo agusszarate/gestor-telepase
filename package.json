@@ -1,0 +1,37 @@
+{
+  "name": "telepase-gestion",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.4.2",
+    "@prisma/client": "^7.4.2",
+    "cheerio": "^1.2.0",
+    "dotenv": "^17.3.1",
+    "luxon": "^3.7.2",
+    "next": "^16.1.6",
+    "pg": "^8.20.0",
+    "prisma": "^7.4.2",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.1",
+    "@types/luxon": "^3.7.1",
+    "@types/node": "^25.4.0",
+    "@types/react": "^19.2.14",
+    "eslint": "^10.0.3",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^4.2.1",
+    "typescript": "^5.9.3"
+  }
+}

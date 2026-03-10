@@ -1,0 +1,26 @@
+# dependencies
+node_modules
+
+# next.js
+.next
+out
+
+# environment variables
+.env
+.env.local
+.env.*.local
+
+# prisma generated client
+/lib/generated/prisma
+
+# postgres data
+pgdata
+
+# claude code
+.claude
+
+# misc
+*.csv
+.DS_Store
+*.tsbuildinfo
+next-env.d.ts
