@@ -10,6 +10,28 @@ services:
       - "5432:5432"
     volumes:
       - ./pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U telepase"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
-volumes:
-  pgdata:
+  migrate:
+    build: .
+    command: npx prisma migrate deploy
+    environment:
+      DATABASE_URL: postgresql://telepase:telepase@db:5432/telepase
+    depends_on:
+      db:
+        condition: service_healthy
+
+  app:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://telepase:telepase@db:5432/telepase
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
