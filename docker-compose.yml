@@ -15,7 +15,9 @@ services:
       retries: 10
 
   migrate:
-    build: .
+    build:
+      context: .
+      target: builder
     command: npx prisma migrate deploy
     environment:
       DATABASE_URL: postgresql://telepase:telepase@db:5432/telepase
