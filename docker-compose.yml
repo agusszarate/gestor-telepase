@@ -29,7 +29,7 @@ services:
     build: .
     restart: unless-stopped
     ports:
-      - "3001:3000"
+      - "3002:3000"
     environment:
       DATABASE_URL: postgresql://telepase:telepase@db:5432/telepase
     depends_on:
