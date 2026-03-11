@@ -8,7 +8,7 @@ export async function setSessionCookies(telepaseCookies: string) {
   const encoded = Buffer.from(telepaseCookies).toString("base64");
   cookieStore.set(COOKIE_NAME, encoded, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: process.env.COOKIE_SECURE === "true",
     sameSite: "lax",
     path: "/",
     maxAge: 60 * 60 * 2, // 2 hours
