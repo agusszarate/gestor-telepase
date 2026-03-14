@@ -105,7 +105,7 @@ export async function getFacturas(cookies: string): Promise<Factura[]> {
         concesionario: $(tds[1]).text().trim(),
         comprobante: $(tds[2]).text().trim(),
         vencimiento: $(tds[3]).html()?.replace(/<br\s*\/?>/gi, "\n").replace(/<[^>]*>/g, "").trim().replace(/(\d{4}-\d{2}-\d{2})\s+(\d{4}-\d{2}-\d{2})/, "$1\n$2") || "",
-        monto: $(tds[4]).text().trim().replace(/\s+/g, " "),
+        monto: ($(tds[4]).html()?.replace(/<br\s*\/?>/gi, "\n").replace(/<[^>]*>/g, "").trim() || $(tds[4]).text().trim()).replace(/(\$[\d.,]+)\s+(\$)/g, "$1\n$2"),
         url_factura: $(tds[5]).find("a").attr("href"),
         url_pasadas: $(tds[6]).find("a").attr("href"),
       };
@@ -171,7 +171,7 @@ export async function getFacturasAll(cookies: string): Promise<Factura[]> {
         concesionario: $(tds[1]).text().trim(),
         comprobante: $(tds[2]).text().trim(),
         vencimiento: $(tds[3]).html()?.replace(/<br\s*\/?>/gi, "\n").replace(/<[^>]*>/g, "").trim().replace(/(\d{4}-\d{2}-\d{2})\s+(\d{4}-\d{2}-\d{2})/, "$1\n$2") || "",
-        monto: $(tds[4]).text().trim().replace(/\s+/g, " "),
+        monto: ($(tds[4]).html()?.replace(/<br\s*\/?>/gi, "\n").replace(/<[^>]*>/g, "").trim() || $(tds[4]).text().trim()).replace(/(\$[\d.,]+)\s+(\$)/g, "$1\n$2"),
         url_factura: $(tds[5]).find("a").attr("href"),
         url_pasadas: $(tds[6]).find("a").attr("href"),
       };

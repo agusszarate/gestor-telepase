@@ -254,7 +254,7 @@ export default function FacturasPage() {
                   <td className="px-6 py-4 text-sm text-gray-600 whitespace-pre-line">
                     {f.vencimiento}
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-900 font-semibold text-right">
+                  <td className="px-6 py-4 text-sm text-gray-900 font-semibold text-right whitespace-pre-line">
                     {f.pagada ? (
                       <span className="line-through text-gray-400">
                         {f.monto}
@@ -360,7 +360,7 @@ export default function FacturasPage() {
                     <p className="text-sm text-gray-500">{f.concesionario}</p>
                   </div>
                 </div>
-                <p className={`text-lg font-bold ${f.pagada ? "text-gray-400 line-through" : "text-gray-900"}`}>
+                <p className={`text-lg font-bold text-right whitespace-pre-line ${f.pagada ? "text-gray-400 line-through" : "text-gray-900"}`}>
                   {f.monto}
                 </p>
               </div>
