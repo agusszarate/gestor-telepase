@@ -43,7 +43,7 @@ export default function LoginPage() {
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-gray-900">Telepase</h1>
             <p className="text-gray-500 mt-2">
-              Ingresa tus credenciales para ver tus facturas
+              Iniciá sesión con tus credenciales de Telepase
             </p>
           </div>
 
