@@ -9,9 +9,10 @@ datasource db {
 
 model Factura {
   id             Int       @id @default(autoincrement())
+  userEmail      String?
   periodo        String
   concesionario  String
-  comprobante    String    @unique
+  comprobante    String
   vencimiento    String
   monto          String
   urlFactura     String?
@@ -21,6 +22,8 @@ model Factura {
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
   pasadas        Pasada[]
+
+  @@unique([comprobante, userEmail])
 }
 
 model Pasada {

@@ -4,17 +4,17 @@ import { getSessionCookies } from "@/lib/session";
 import { prisma } from "@/lib/db";
 
 export async function GET() {
-  const cookies = await getSessionCookies();
-  if (!cookies) {
+  const session = await getSessionCookies();
+  if (!session) {
     return NextResponse.json({ error: "No autenticado" }, { status: 401 });
   }
 
   try {
-    const facturas = await getFacturasAll(cookies);
+    const facturas = await getFacturasAll(session.cookies);
 
     for (const f of facturas) {
       await prisma.factura.upsert({
-        where: { comprobante: f.comprobante },
+        where: { comprobante_userEmail: { comprobante: f.comprobante, userEmail: session.email } },
         update: {
           periodo: f.periodo,
           concesionario: f.concesionario,
@@ -24,6 +24,7 @@ export async function GET() {
           urlPasadas: f.url_pasadas || null,
         },
         create: {
+          userEmail: session.email,
           periodo: f.periodo,
           concesionario: f.concesionario,
           comprobante: f.comprobante,
@@ -36,6 +37,7 @@ export async function GET() {
     }
 
     const dbFacturas = await prisma.factura.findMany({
+      where: { userEmail: session.email },
       orderBy: { periodo: "desc" },
     });
 

@@ -3,8 +3,8 @@ import { prisma } from "@/lib/db";
 import { getSessionCookies } from "@/lib/session";
 
 export async function POST(request: Request) {
-  const cookies = await getSessionCookies();
-  if (!cookies) {
+  const session = await getSessionCookies();
+  if (!session) {
     return NextResponse.json({ error: "No autenticado" }, { status: 401 });
   }
 
@@ -19,7 +19,7 @@ export async function POST(request: Request) {
 
   try {
     await prisma.factura.update({
-      where: { comprobante },
+      where: { comprobante_userEmail: { comprobante, userEmail: session.email } },
       data: {
         pagada,
         pagadaAt: pagada ? new Date() : null,

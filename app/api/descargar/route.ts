@@ -3,8 +3,8 @@ import { descargar } from "@/lib/telepase";
 import { getSessionCookies } from "@/lib/session";
 
 export async function GET(request: NextRequest) {
-  const cookies = await getSessionCookies();
-  if (!cookies) {
+  const session = await getSessionCookies();
+  if (!session) {
     return NextResponse.json({ error: "No autenticado" }, { status: 401 });
   }
 
@@ -13,13 +13,17 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "URL requerida" }, { status: 400 });
   }
 
-  // Validate URL is from telepase
-  if (!url.startsWith("https://telepase.com.ar/")) {
-    return NextResponse.json({ error: "URL no permitida" }, { status: 403 });
+  try {
+    const parsed = new URL(url);
+    if (parsed.hostname !== "telepase.com.ar") {
+      return NextResponse.json({ error: "URL no permitida" }, { status: 403 });
+    }
+  } catch {
+    return NextResponse.json({ error: "URL invalida" }, { status: 400 });
   }
 
   try {
-    const response = await descargar(url, cookies);
+    const response = await descargar(url, session.cookies);
 
     if (!response.ok) {
       return NextResponse.json(

@@ -14,7 +14,7 @@ export async function POST(request: Request) {
 
   try {
     const cookies = await login(email, password);
-    await setSessionCookies(cookies);
+    await setSessionCookies(cookies, email);
     return NextResponse.json({ ok: true });
   } catch (e) {
     const message = e instanceof Error ? e.message : "Error de login";

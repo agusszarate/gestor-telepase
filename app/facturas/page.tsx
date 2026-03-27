@@ -115,7 +115,10 @@ export default function FacturasPage() {
           pagadas={pagadas.length}
           loadingTodas={loadingTodas}
           onFetchTodas={fetchTodas}
-          onLogout={() => router.push("/")}
+          onLogout={async () => {
+            await fetch("/api/logout", { method: "POST" });
+            router.push("/");
+          }}
         />
 
         <FacturaTable
