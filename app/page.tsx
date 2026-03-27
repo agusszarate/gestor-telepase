@@ -2,6 +2,7 @@
 
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { FormInput } from "./components/ui/FormInput";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -48,41 +49,22 @@ export default function LoginPage() {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-text-secondary mb-1"
-              >
-                Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 rounded-lg border border-border bg-bg-surface focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition text-text-primary"
-                placeholder="tu@email.com"
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-text-secondary mb-1"
-              >
-                Password
-              </label>
-              <input
-                id="password"
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 rounded-lg border border-border bg-bg-surface focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition text-text-primary"
-                placeholder="Tu contraseña"
-              />
-            </div>
+            <FormInput
+              id="email"
+              label="Email"
+              type="email"
+              value={email}
+              onChange={setEmail}
+              placeholder="tu@email.com"
+            />
+            <FormInput
+              id="password"
+              label="Password"
+              type="password"
+              value={password}
+              onChange={setPassword}
+              placeholder="Tu contraseña"
+            />
 
             {error && (
               <div className="bg-bg-error text-text-error px-4 py-3 rounded-lg text-sm">

@@ -2,18 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-
-interface Factura {
-  periodo: string;
-  concesionario: string;
-  comprobante: string;
-  vencimiento: string;
-  monto: string;
-  url_factura?: string;
-  url_pasadas?: string;
-  pagada?: boolean;
-  pagadaAt?: string;
-}
+import type { Factura } from "@/types";
+import { LoadingSpinner } from "@/app/components/ui/LoadingSpinner";
+import { ErrorState } from "@/app/components/ui/ErrorState";
+import { EmptyState } from "@/app/components/ui/EmptyState";
+import { FacturasHeader } from "./components/FacturasHeader";
+import { FacturaTable } from "./components/FacturaTable";
+import { FacturaCardList } from "./components/FacturaCardList";
 
 export default function FacturasPage() {
   const [facturas, setFacturas] = useState<Factura[]>([]);
@@ -106,32 +101,8 @@ export default function FacturasPage() {
     }
   }
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="inline-block h-10 w-10 animate-spin rounded-full border-4 border-blue-600 border-t-transparent" />
-          <p className="mt-4 text-text-secondary">Cargando facturas...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="min-h-screen flex items-center justify-center px-4">
-        <div className="bg-bg-error text-text-error px-6 py-4 rounded-xl max-w-md text-center">
-          <p className="font-medium">{error}</p>
-          <button
-            onClick={() => router.push("/")}
-            className="mt-4 text-sm text-text-error underline cursor-pointer"
-          >
-            Volver al login
-          </button>
-        </div>
-      </div>
-    );
-  }
+  if (loading) return <LoadingSpinner message="Cargando facturas..." />;
+  if (error) return <ErrorState message={error} actionLabel="Volver al login" onAction={() => router.push("/")} />;
 
   const pagadas = facturas.filter((f) => f.pagada);
   const pendientes = facturas.filter((f) => !f.pagada);
@@ -139,277 +110,29 @@ export default function FacturasPage() {
   return (
     <div className="min-h-screen py-8 px-4">
       <div className="max-w-6xl mx-auto">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-text-primary">Mis Facturas</h1>
-            <p className="text-text-muted mt-1">
-              {pendientes.length} pendiente{pendientes.length !== 1 && "s"}
-              {pagadas.length > 0 && (
-                <span>
-                  {" "}&middot; {pagadas.length} pagada
-                  {pagadas.length !== 1 && "s"}
-                </span>
-              )}
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
-            <button
-              onClick={fetchTodas}
-              disabled={loadingTodas}
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-bg-accent-amber text-text-accent-amber rounded-lg hover:bg-bg-accent-amber/80 transition cursor-pointer disabled:opacity-50"
-            >
-              {loadingTodas ? (
-                <>
-                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-amber-600 border-t-transparent" />
-                  Buscando...
-                </>
-              ) : (
-                <>
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  Obtener historial completo
-                </>
-              )}
-            </button>
-            <button
-              onClick={() => router.push("/")}
-              className="text-sm text-text-muted hover:text-text-secondary cursor-pointer"
-            >
-              Cerrar sesion
-            </button>
-          </div>
-        </div>
+        <FacturasHeader
+          pendientes={pendientes.length}
+          pagadas={pagadas.length}
+          loadingTodas={loadingTodas}
+          onFetchTodas={fetchTodas}
+          onLogout={() => router.push("/")}
+        />
 
-        {/* Desktop table */}
-        <div className="hidden md:block bg-bg-surface rounded-2xl shadow-lg overflow-hidden">
-          <table className="w-full">
-            <thead>
-              <tr className="bg-bg-muted border-b border-border">
-                <th className="text-center px-4 py-4 text-sm font-semibold text-text-muted">
-                  Estado
-                </th>
-                <th className="text-left px-6 py-4 text-sm font-semibold text-text-muted">
-                  Periodo
-                </th>
-                <th className="text-left px-6 py-4 text-sm font-semibold text-text-muted">
-                  Concesionario
-                </th>
-                <th className="text-left px-6 py-4 text-sm font-semibold text-text-muted">
-                  Comprobante
-                </th>
-                <th className="text-left px-6 py-4 text-sm font-semibold text-text-muted">
-                  Vencimiento
-                </th>
-                <th className="text-right px-6 py-4 text-sm font-semibold text-text-muted">
-                  Monto
-                </th>
-                <th className="text-center px-6 py-4 text-sm font-semibold text-text-muted">
-                  Acciones
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {facturas.map((f, i) => (
-                <tr
-                  key={i}
-                  className={`border-b border-border-subtle hover:bg-bg-surface-hover transition ${f.pagada ? "opacity-60" : ""}`}
-                >
-                  <td className="px-4 py-4 text-center">
-                    <button
-                      onClick={() => togglePagada(f)}
-                      className={`w-6 h-6 rounded-md border-2 inline-flex items-center justify-center cursor-pointer transition ${
-                        f.pagada
-                          ? "bg-green-500 border-green-500 text-white"
-                          : "border-border hover:border-green-400"
-                      }`}
-                      title={f.pagada ? "Marcar como pendiente" : "Marcar como pagada"}
-                    >
-                      {f.pagada && (
-                        <svg
-                          className="w-4 h-4"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={3}
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
-                      )}
-                    </button>
-                  </td>
-                  <td className="px-6 py-4 text-sm text-text-primary">
-                    {f.periodo}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-text-secondary">
-                    {f.concesionario}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-text-secondary font-mono">
-                    {f.comprobante}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-text-secondary whitespace-pre-line">
-                    {f.vencimiento}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-text-primary font-semibold text-right whitespace-pre-line">
-                    {f.pagada ? (
-                      <span className="line-through text-text-faint">
-                        {f.monto}
-                      </span>
-                    ) : (
-                      f.monto
-                    )}
-                  </td>
-                  <td className="px-6 py-4 text-center">
-                    <div className="flex items-center justify-center gap-2">
-                      {f.url_factura && (
-                        <button
-                          onClick={() =>
-                            handleDownload(
-                              f.url_factura!,
-                              `factura-${f.comprobante}.pdf`
-                            )
-                          }
-                          className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium bg-bg-accent-blue text-text-accent-blue rounded-lg hover:bg-bg-accent-blue/80 transition cursor-pointer"
-                          title="Descargar factura PDF"
-                        >
-                          <svg
-                            className="w-3.5 h-3.5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                            />
-                          </svg>
-                          PDF
-                        </button>
-                      )}
-                      {f.url_pasadas && (
-                        <button
-                          onClick={() => handleVerPasadas(f)}
-                          className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium bg-bg-accent-purple text-text-accent-purple rounded-lg hover:bg-bg-accent-purple/80 transition cursor-pointer"
-                          title="Ver detalle de pasadas"
-                        >
-                          <svg
-                            className="w-3.5 h-3.5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                            />
-                          </svg>
-                          Pasadas
-                        </button>
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <FacturaTable
+          facturas={facturas}
+          onTogglePagada={togglePagada}
+          onDownload={handleDownload}
+          onVerPasadas={handleVerPasadas}
+        />
 
-        {/* Mobile cards */}
-        <div className="md:hidden space-y-4">
-          {facturas.map((f, i) => (
-            <div
-              key={i}
-              className={`bg-bg-surface rounded-xl shadow-md p-5 ${f.pagada ? "opacity-60" : ""}`}
-            >
-              <div className="flex justify-between items-start mb-3">
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={() => togglePagada(f)}
-                    className={`w-6 h-6 rounded-md border-2 inline-flex items-center justify-center cursor-pointer transition shrink-0 ${
-                      f.pagada
-                        ? "bg-green-500 border-green-500 text-white"
-                        : "border-border hover:border-green-400"
-                    }`}
-                  >
-                    {f.pagada && (
-                      <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={3}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                    )}
-                  </button>
-                  <div>
-                    <p className="font-semibold text-text-primary">{f.periodo}</p>
-                    <p className="text-sm text-text-muted">{f.concesionario}</p>
-                  </div>
-                </div>
-                <p className={`text-lg font-bold text-right whitespace-pre-line ${f.pagada ? "text-text-faint line-through" : "text-text-primary"}`}>
-                  {f.monto}
-                </p>
-              </div>
-              <div className="text-sm text-text-muted space-y-1 mb-4">
-                <p>
-                  <span className="font-medium text-text-secondary">
-                    Comprobante:
-                  </span>{" "}
-                  <span className="font-mono">{f.comprobante}</span>
-                </p>
-                <p>
-                  <span className="font-medium text-text-secondary">
-                    Vencimiento:
-                  </span>{" "}
-                  <span className="whitespace-pre-line">{f.vencimiento}</span>
-                </p>
-              </div>
-              <div className="flex gap-2">
-                {f.url_factura && (
-                  <button
-                    onClick={() =>
-                      handleDownload(
-                        f.url_factura!,
-                        `factura-${f.comprobante}.pdf`
-                      )
-                    }
-                    className="flex-1 text-center px-3 py-2 text-sm font-medium bg-bg-accent-blue text-text-accent-blue rounded-lg hover:bg-bg-accent-blue/80 transition cursor-pointer"
-                  >
-                    Factura PDF
-                  </button>
-                )}
-                {f.url_pasadas && (
-                  <button
-                    onClick={() => handleVerPasadas(f)}
-                    className="flex-1 text-center px-3 py-2 text-sm font-medium bg-bg-accent-purple text-text-accent-purple rounded-lg hover:bg-bg-accent-purple/80 transition cursor-pointer"
-                  >
-                    Ver Pasadas
-                  </button>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
+        <FacturaCardList
+          facturas={facturas}
+          onTogglePagada={togglePagada}
+          onDownload={handleDownload}
+          onVerPasadas={handleVerPasadas}
+        />
 
-        {facturas.length === 0 && (
-          <div className="text-center py-16 text-text-muted">
-            No se encontraron facturas
-          </div>
-        )}
+        {facturas.length === 0 && <EmptyState message="No se encontraron facturas" />}
       </div>
     </div>
   );
