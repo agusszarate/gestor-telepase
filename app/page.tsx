@@ -39,10 +39,10 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
       <div className="w-full max-w-md">
-        <div className="bg-white rounded-2xl shadow-lg p-8">
+        <div className="bg-bg-surface rounded-2xl shadow-lg p-8">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900">Telepase</h1>
-            <p className="text-gray-500 mt-2">
+            <h1 className="text-3xl font-bold text-text-primary">Telepase</h1>
+            <p className="text-text-muted mt-2">
               Iniciá sesión con tus credenciales de Telepase
             </p>
           </div>
@@ -51,7 +51,7 @@ export default function LoginPage() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-medium text-text-secondary mb-1"
               >
                 Email
               </label>
@@ -61,7 +61,7 @@ export default function LoginPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition text-gray-900"
+                className="w-full px-4 py-3 rounded-lg border border-border bg-bg-surface focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition text-text-primary"
                 placeholder="tu@email.com"
               />
             </div>
@@ -69,7 +69,7 @@ export default function LoginPage() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-medium text-text-secondary mb-1"
               >
                 Password
               </label>
@@ -79,13 +79,13 @@ export default function LoginPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition text-gray-900"
+                className="w-full px-4 py-3 rounded-lg border border-border bg-bg-surface focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition text-text-primary"
                 placeholder="Tu contraseña"
               />
             </div>
 
             {error && (
-              <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg text-sm">
+              <div className="bg-bg-error text-text-error px-4 py-3 rounded-lg text-sm">
                 {error}
               </div>
             )}
@@ -93,7 +93,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-medium py-3 rounded-lg transition cursor-pointer"
+              className="w-full bg-btn-primary hover:bg-btn-primary-hover disabled:opacity-50 text-white font-medium py-3 rounded-lg transition cursor-pointer"
             >
               {loading ? "Ingresando..." : "Ingresar"}
             </button>

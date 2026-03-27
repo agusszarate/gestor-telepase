@@ -111,7 +111,7 @@ export default function FacturasPage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="inline-block h-10 w-10 animate-spin rounded-full border-4 border-blue-600 border-t-transparent" />
-          <p className="mt-4 text-gray-600">Cargando facturas...</p>
+          <p className="mt-4 text-text-secondary">Cargando facturas...</p>
         </div>
       </div>
     );
@@ -120,11 +120,11 @@ export default function FacturasPage() {
   if (error) {
     return (
       <div className="min-h-screen flex items-center justify-center px-4">
-        <div className="bg-red-50 text-red-600 px-6 py-4 rounded-xl max-w-md text-center">
+        <div className="bg-bg-error text-text-error px-6 py-4 rounded-xl max-w-md text-center">
           <p className="font-medium">{error}</p>
           <button
             onClick={() => router.push("/")}
-            className="mt-4 text-sm text-red-500 underline cursor-pointer"
+            className="mt-4 text-sm text-text-error underline cursor-pointer"
           >
             Volver al login
           </button>
@@ -141,8 +141,8 @@ export default function FacturasPage() {
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Mis Facturas</h1>
-            <p className="text-gray-500 mt-1">
+            <h1 className="text-3xl font-bold text-text-primary">Mis Facturas</h1>
+            <p className="text-text-muted mt-1">
               {pendientes.length} pendiente{pendientes.length !== 1 && "s"}
               {pagadas.length > 0 && (
                 <span>
@@ -156,7 +156,7 @@ export default function FacturasPage() {
             <button
               onClick={fetchTodas}
               disabled={loadingTodas}
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-amber-50 text-amber-700 rounded-lg hover:bg-amber-100 transition cursor-pointer disabled:opacity-50"
+              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-bg-accent-amber text-text-accent-amber rounded-lg hover:bg-bg-accent-amber/80 transition cursor-pointer disabled:opacity-50"
             >
               {loadingTodas ? (
                 <>
@@ -174,7 +174,7 @@ export default function FacturasPage() {
             </button>
             <button
               onClick={() => router.push("/")}
-              className="text-sm text-gray-500 hover:text-gray-700 cursor-pointer"
+              className="text-sm text-text-muted hover:text-text-secondary cursor-pointer"
             >
               Cerrar sesion
             </button>
@@ -182,29 +182,29 @@ export default function FacturasPage() {
         </div>
 
         {/* Desktop table */}
-        <div className="hidden md:block bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div className="hidden md:block bg-bg-surface rounded-2xl shadow-lg overflow-hidden">
           <table className="w-full">
             <thead>
-              <tr className="bg-gray-50 border-b border-gray-200">
-                <th className="text-center px-4 py-4 text-sm font-semibold text-gray-600">
+              <tr className="bg-bg-muted border-b border-border">
+                <th className="text-center px-4 py-4 text-sm font-semibold text-text-muted">
                   Estado
                 </th>
-                <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
+                <th className="text-left px-6 py-4 text-sm font-semibold text-text-muted">
                   Periodo
                 </th>
-                <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
+                <th className="text-left px-6 py-4 text-sm font-semibold text-text-muted">
                   Concesionario
                 </th>
-                <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
+                <th className="text-left px-6 py-4 text-sm font-semibold text-text-muted">
                   Comprobante
                 </th>
-                <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
+                <th className="text-left px-6 py-4 text-sm font-semibold text-text-muted">
                   Vencimiento
                 </th>
-                <th className="text-right px-6 py-4 text-sm font-semibold text-gray-600">
+                <th className="text-right px-6 py-4 text-sm font-semibold text-text-muted">
                   Monto
                 </th>
-                <th className="text-center px-6 py-4 text-sm font-semibold text-gray-600">
+                <th className="text-center px-6 py-4 text-sm font-semibold text-text-muted">
                   Acciones
                 </th>
               </tr>
@@ -213,7 +213,7 @@ export default function FacturasPage() {
               {facturas.map((f, i) => (
                 <tr
                   key={i}
-                  className={`border-b border-gray-100 hover:bg-gray-50 transition ${f.pagada ? "opacity-60" : ""}`}
+                  className={`border-b border-border-subtle hover:bg-bg-surface-hover transition ${f.pagada ? "opacity-60" : ""}`}
                 >
                   <td className="px-4 py-4 text-center">
                     <button
@@ -221,7 +221,7 @@ export default function FacturasPage() {
                       className={`w-6 h-6 rounded-md border-2 inline-flex items-center justify-center cursor-pointer transition ${
                         f.pagada
                           ? "bg-green-500 border-green-500 text-white"
-                          : "border-gray-300 hover:border-green-400"
+                          : "border-border hover:border-green-400"
                       }`}
                       title={f.pagada ? "Marcar como pendiente" : "Marcar como pagada"}
                     >
@@ -242,21 +242,21 @@ export default function FacturasPage() {
                       )}
                     </button>
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-900">
+                  <td className="px-6 py-4 text-sm text-text-primary">
                     {f.periodo}
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-600">
+                  <td className="px-6 py-4 text-sm text-text-secondary">
                     {f.concesionario}
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-600 font-mono">
+                  <td className="px-6 py-4 text-sm text-text-secondary font-mono">
                     {f.comprobante}
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-600 whitespace-pre-line">
+                  <td className="px-6 py-4 text-sm text-text-secondary whitespace-pre-line">
                     {f.vencimiento}
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-900 font-semibold text-right whitespace-pre-line">
+                  <td className="px-6 py-4 text-sm text-text-primary font-semibold text-right whitespace-pre-line">
                     {f.pagada ? (
-                      <span className="line-through text-gray-400">
+                      <span className="line-through text-text-faint">
                         {f.monto}
                       </span>
                     ) : (
@@ -273,7 +273,7 @@ export default function FacturasPage() {
                               `factura-${f.comprobante}.pdf`
                             )
                           }
-                          className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition cursor-pointer"
+                          className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium bg-bg-accent-blue text-text-accent-blue rounded-lg hover:bg-bg-accent-blue/80 transition cursor-pointer"
                           title="Descargar factura PDF"
                         >
                           <svg
@@ -295,7 +295,7 @@ export default function FacturasPage() {
                       {f.url_pasadas && (
                         <button
                           onClick={() => handleVerPasadas(f)}
-                          className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition cursor-pointer"
+                          className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium bg-bg-accent-purple text-text-accent-purple rounded-lg hover:bg-bg-accent-purple/80 transition cursor-pointer"
                           title="Ver detalle de pasadas"
                         >
                           <svg
@@ -327,7 +327,7 @@ export default function FacturasPage() {
           {facturas.map((f, i) => (
             <div
               key={i}
-              className={`bg-white rounded-xl shadow-md p-5 ${f.pagada ? "opacity-60" : ""}`}
+              className={`bg-bg-surface rounded-xl shadow-md p-5 ${f.pagada ? "opacity-60" : ""}`}
             >
               <div className="flex justify-between items-start mb-3">
                 <div className="flex items-center gap-3">
@@ -336,7 +336,7 @@ export default function FacturasPage() {
                     className={`w-6 h-6 rounded-md border-2 inline-flex items-center justify-center cursor-pointer transition shrink-0 ${
                       f.pagada
                         ? "bg-green-500 border-green-500 text-white"
-                        : "border-gray-300 hover:border-green-400"
+                        : "border-border hover:border-green-400"
                     }`}
                   >
                     {f.pagada && (
@@ -356,23 +356,23 @@ export default function FacturasPage() {
                     )}
                   </button>
                   <div>
-                    <p className="font-semibold text-gray-900">{f.periodo}</p>
-                    <p className="text-sm text-gray-500">{f.concesionario}</p>
+                    <p className="font-semibold text-text-primary">{f.periodo}</p>
+                    <p className="text-sm text-text-muted">{f.concesionario}</p>
                   </div>
                 </div>
-                <p className={`text-lg font-bold text-right whitespace-pre-line ${f.pagada ? "text-gray-400 line-through" : "text-gray-900"}`}>
+                <p className={`text-lg font-bold text-right whitespace-pre-line ${f.pagada ? "text-text-faint line-through" : "text-text-primary"}`}>
                   {f.monto}
                 </p>
               </div>
-              <div className="text-sm text-gray-500 space-y-1 mb-4">
+              <div className="text-sm text-text-muted space-y-1 mb-4">
                 <p>
-                  <span className="font-medium text-gray-600">
+                  <span className="font-medium text-text-secondary">
                     Comprobante:
                   </span>{" "}
                   <span className="font-mono">{f.comprobante}</span>
                 </p>
                 <p>
-                  <span className="font-medium text-gray-600">
+                  <span className="font-medium text-text-secondary">
                     Vencimiento:
                   </span>{" "}
                   <span className="whitespace-pre-line">{f.vencimiento}</span>
@@ -387,7 +387,7 @@ export default function FacturasPage() {
                         `factura-${f.comprobante}.pdf`
                       )
                     }
-                    className="flex-1 text-center px-3 py-2 text-sm font-medium bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition cursor-pointer"
+                    className="flex-1 text-center px-3 py-2 text-sm font-medium bg-bg-accent-blue text-text-accent-blue rounded-lg hover:bg-bg-accent-blue/80 transition cursor-pointer"
                   >
                     Factura PDF
                   </button>
@@ -395,7 +395,7 @@ export default function FacturasPage() {
                 {f.url_pasadas && (
                   <button
                     onClick={() => handleVerPasadas(f)}
-                    className="flex-1 text-center px-3 py-2 text-sm font-medium bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition cursor-pointer"
+                    className="flex-1 text-center px-3 py-2 text-sm font-medium bg-bg-accent-purple text-text-accent-purple rounded-lg hover:bg-bg-accent-purple/80 transition cursor-pointer"
                   >
                     Ver Pasadas
                   </button>
@@ -406,7 +406,7 @@ export default function FacturasPage() {
         </div>
 
         {facturas.length === 0 && (
-          <div className="text-center py-16 text-gray-500">
+          <div className="text-center py-16 text-text-muted">
             No se encontraron facturas
           </div>
         )}

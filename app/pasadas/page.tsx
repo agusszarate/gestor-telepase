@@ -140,7 +140,7 @@ function PasadasDashboard() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="inline-block h-10 w-10 animate-spin rounded-full border-4 border-blue-600 border-t-transparent" />
-          <p className="mt-4 text-gray-600">Cargando pasadas...</p>
+          <p className="mt-4 text-text-secondary">Cargando pasadas...</p>
         </div>
       </div>
     );
@@ -149,11 +149,11 @@ function PasadasDashboard() {
   if (error) {
     return (
       <div className="min-h-screen flex items-center justify-center px-4">
-        <div className="bg-red-50 text-red-600 px-6 py-4 rounded-xl max-w-md text-center">
+        <div className="bg-bg-error text-text-error px-6 py-4 rounded-xl max-w-md text-center">
           <p className="font-medium">{error}</p>
           <button
             onClick={() => router.push("/facturas")}
-            className="mt-4 text-sm text-red-500 underline cursor-pointer"
+            className="mt-4 text-sm text-text-error underline cursor-pointer"
           >
             Volver a facturas
           </button>
@@ -177,7 +177,7 @@ function PasadasDashboard() {
           <div>
             <button
               onClick={() => router.push("/facturas")}
-              className="text-sm text-blue-600 hover:text-blue-800 cursor-pointer mb-2 inline-flex items-center gap-1"
+              className="text-sm text-text-accent-blue hover:text-text-accent-blue/80 cursor-pointer mb-2 inline-flex items-center gap-1"
             >
               <svg
                 className="w-4 h-4"
@@ -194,11 +194,11 @@ function PasadasDashboard() {
               </svg>
               Volver a facturas
             </button>
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className="text-3xl font-bold text-text-primary">
               Detalle de Pasadas
             </h1>
             {(periodo || comprobante) && (
-              <p className="text-gray-500 mt-1">
+              <p className="text-text-muted mt-1">
                 {periodo && <span>{periodo}</span>}
                 {periodo && comprobante && <span> &middot; </span>}
                 {comprobante && (
@@ -212,7 +212,7 @@ function PasadasDashboard() {
               <a
                 href={`/api/descargar?url=${encodeURIComponent(urlFactura)}`}
                 download={`factura-${comprobante || "export"}.pdf`}
-                className="text-sm px-4 py-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition cursor-pointer font-medium"
+                className="text-sm px-4 py-2 bg-bg-accent-blue text-text-accent-blue rounded-lg hover:bg-bg-accent-blue/80 transition cursor-pointer font-medium"
               >
                 Factura PDF
               </a>
@@ -221,7 +221,7 @@ function PasadasDashboard() {
               <a
                 href={`/api/descargar?url=${encodeURIComponent(url)}`}
                 download={`pasadas-${comprobante || "export"}.csv`}
-                className="text-sm px-4 py-2 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition cursor-pointer font-medium"
+                className="text-sm px-4 py-2 bg-bg-accent-green text-text-accent-green rounded-lg hover:bg-bg-accent-green/80 transition cursor-pointer font-medium"
               >
                 Descargar CSV
               </a>
@@ -233,21 +233,21 @@ function PasadasDashboard() {
           <>
             {/* Summary cards */}
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
-              <div className="bg-white rounded-xl shadow-md p-5">
-                <p className="text-sm text-gray-500">Total pasadas</p>
-                <p className="text-2xl font-bold text-gray-900 mt-1">
+              <div className="bg-bg-surface rounded-xl shadow-md p-5">
+                <p className="text-sm text-text-muted">Total pasadas</p>
+                <p className="text-2xl font-bold text-text-primary mt-1">
                   {pasadas.length}
                 </p>
               </div>
-              <div className="bg-white rounded-xl shadow-md p-5">
-                <p className="text-sm text-gray-500">Total tarifas</p>
-                <p className="text-2xl font-bold text-gray-900 mt-1">
+              <div className="bg-bg-surface rounded-xl shadow-md p-5">
+                <p className="text-sm text-text-muted">Total tarifas</p>
+                <p className="text-2xl font-bold text-text-primary mt-1">
                   {fmt(stats.totalTarifa)}
                 </p>
               </div>
-              <div className="bg-white rounded-xl shadow-md p-5">
-                <p className="text-sm text-gray-500">Promedio por pasada</p>
-                <p className="text-2xl font-bold text-gray-900 mt-1">
+              <div className="bg-bg-surface rounded-xl shadow-md p-5">
+                <p className="text-sm text-text-muted">Promedio por pasada</p>
+                <p className="text-2xl font-bold text-text-primary mt-1">
                   {fmt(stats.avgTarifa)}
                 </p>
               </div>
@@ -255,35 +255,35 @@ function PasadasDashboard() {
 
             {/* Hora pico breakdown */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-              <div className="bg-orange-50 border border-orange-200 rounded-xl p-5">
+              <div className="bg-bg-warning border border-border-warning rounded-xl p-5">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="inline-block w-2.5 h-2.5 rounded-full bg-orange-500" />
-                  <p className="text-sm font-medium text-orange-800">
+                  <p className="text-sm font-medium text-text-warning">
                     Hora pico
                   </p>
-                  <span className="text-xs text-orange-500 ml-auto">
+                  <span className="text-xs text-text-warning/70 ml-auto">
                     L-V 7-11h / 16-20h
                   </span>
                 </div>
-                <p className="text-2xl font-bold text-gray-900 mt-1">
+                <p className="text-2xl font-bold text-text-primary mt-1">
                   {fmt(stats.totalHoraPico)}
                 </p>
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="text-sm text-text-muted mt-1">
                   {stats.pasadasHoraPico} pasada
                   {stats.pasadasHoraPico !== 1 && "s"}
                 </p>
               </div>
-              <div className="bg-sky-50 border border-sky-200 rounded-xl p-5">
+              <div className="bg-bg-info border border-border-info rounded-xl p-5">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="inline-block w-2.5 h-2.5 rounded-full bg-sky-500" />
-                  <p className="text-sm font-medium text-sky-800">
+                  <p className="text-sm font-medium text-text-info">
                     Fuera de hora pico
                   </p>
                 </div>
-                <p className="text-2xl font-bold text-gray-900 mt-1">
+                <p className="text-2xl font-bold text-text-primary mt-1">
                   {fmt(stats.totalNormal)}
                 </p>
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="text-sm text-text-muted mt-1">
                   {stats.pasadasNormal} pasada
                   {stats.pasadasNormal !== 1 && "s"}
                 </p>
@@ -293,23 +293,23 @@ function PasadasDashboard() {
             {/* Charts row */}
             <div className="grid md:grid-cols-2 gap-6 mb-8">
               {/* By estacion */}
-              <div className="bg-white rounded-xl shadow-md p-6">
-                <h2 className="text-lg font-semibold text-gray-900 mb-4">
+              <div className="bg-bg-surface rounded-xl shadow-md p-6">
+                <h2 className="text-lg font-semibold text-text-primary mb-4">
                   Por estacion
                 </h2>
                 <div className="space-y-3">
                   {stats.estacionesSorted.map(([estacion, data]) => (
                     <div key={estacion}>
                       <div className="flex justify-between text-sm mb-1">
-                        <span className="text-gray-700 font-medium">
+                        <span className="text-text-secondary font-medium">
                           {estacion}
                         </span>
-                        <span className="text-gray-500">
+                        <span className="text-text-muted">
                           {data.count} pasada{data.count > 1 && "s"} &middot;{" "}
                           {fmt(data.total)}
                         </span>
                       </div>
-                      <div className="w-full bg-gray-100 rounded-full h-3">
+                      <div className="w-full bg-bar-bg rounded-full h-3">
                         <div
                           className="bg-blue-500 h-3 rounded-full transition-all"
                           style={{
@@ -323,8 +323,8 @@ function PasadasDashboard() {
               </div>
 
               {/* By date */}
-              <div className="bg-white rounded-xl shadow-md p-6">
-                <h2 className="text-lg font-semibold text-gray-900 mb-4">
+              <div className="bg-bg-surface rounded-xl shadow-md p-6">
+                <h2 className="text-lg font-semibold text-text-primary mb-4">
                   Por fecha
                 </h2>
                 <div className="space-y-3">
@@ -335,15 +335,15 @@ function PasadasDashboard() {
                     return (
                       <div key={fecha}>
                         <div className="flex justify-between text-sm mb-1">
-                          <span className="text-gray-700 font-medium">
+                          <span className="text-text-secondary font-medium">
                             {fecha}
                           </span>
-                          <span className="text-gray-500">
+                          <span className="text-text-muted">
                             {data.count} pasada{data.count > 1 && "s"} &middot;{" "}
                             {fmt(data.total)}
                           </span>
                         </div>
-                        <div className="w-full bg-gray-100 rounded-full h-3">
+                        <div className="w-full bg-bar-bg rounded-full h-3">
                           <div
                             className="bg-green-500 h-3 rounded-full transition-all"
                             style={{
@@ -361,8 +361,8 @@ function PasadasDashboard() {
         )}
 
         {/* Table */}
-        <div className="bg-white rounded-xl shadow-md overflow-hidden">
-          <h2 className="text-lg font-semibold text-gray-900 px-6 pt-5 pb-3">
+        <div className="bg-bg-surface rounded-xl shadow-md overflow-hidden">
+          <h2 className="text-lg font-semibold text-text-primary px-6 pt-5 pb-3">
             Todas las pasadas
           </h2>
 
@@ -370,29 +370,29 @@ function PasadasDashboard() {
           <div className="hidden md:block overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="bg-gray-50 border-b border-gray-200">
-                  <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">
+                <tr className="bg-bg-muted border-b border-border">
+                  <th className="text-left px-6 py-3 text-xs font-semibold text-text-muted uppercase">
                     Fecha
                   </th>
-                  <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">
+                  <th className="text-left px-6 py-3 text-xs font-semibold text-text-muted uppercase">
                     Hora
                   </th>
-                  <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">
+                  <th className="text-left px-6 py-3 text-xs font-semibold text-text-muted uppercase">
                     Estacion
                   </th>
-                  <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">
+                  <th className="text-left px-6 py-3 text-xs font-semibold text-text-muted uppercase">
                     Via
                   </th>
-                  <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">
+                  <th className="text-left px-6 py-3 text-xs font-semibold text-text-muted uppercase">
                     Patente
                   </th>
-                  <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">
+                  <th className="text-left px-6 py-3 text-xs font-semibold text-text-muted uppercase">
                     Cat.
                   </th>
-                  <th className="text-right px-6 py-3 text-xs font-semibold text-gray-500 uppercase">
+                  <th className="text-right px-6 py-3 text-xs font-semibold text-text-muted uppercase">
                     Tarifa
                   </th>
-                  <th className="text-right px-6 py-3 text-xs font-semibold text-gray-500 uppercase">
+                  <th className="text-right px-6 py-3 text-xs font-semibold text-text-muted uppercase">
                     Bonif.
                   </th>
                 </tr>
@@ -401,35 +401,35 @@ function PasadasDashboard() {
                 {pasadas.map((p, i) => (
                   <tr
                     key={i}
-                    className="border-b border-gray-50 hover:bg-gray-50 transition"
+                    className="border-b border-border-subtle hover:bg-bg-surface-hover transition"
                   >
-                    <td className="px-6 py-3 text-sm text-gray-900">
+                    <td className="px-6 py-3 text-sm text-text-primary">
                       {p.fecha}
                     </td>
-                    <td className="px-6 py-3 text-sm text-gray-600 font-mono">
+                    <td className="px-6 py-3 text-sm text-text-secondary font-mono">
                       {p.hora}
                       {p.horaPico && (
-                        <span className="ml-2 inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-orange-100 text-orange-700">
+                        <span className="ml-2 inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-bg-warning text-text-warning">
                           H.PICO
                         </span>
                       )}
                     </td>
-                    <td className="px-6 py-3 text-sm text-gray-600">
+                    <td className="px-6 py-3 text-sm text-text-secondary">
                       {p.estacionNombre}
                     </td>
-                    <td className="px-6 py-3 text-sm text-gray-600">
+                    <td className="px-6 py-3 text-sm text-text-secondary">
                       {p.via}
                     </td>
-                    <td className="px-6 py-3 text-sm text-gray-600 font-mono">
+                    <td className="px-6 py-3 text-sm text-text-secondary font-mono">
                       {p.patente}
                     </td>
-                    <td className="px-6 py-3 text-sm text-gray-600">
+                    <td className="px-6 py-3 text-sm text-text-secondary">
                       {p.categoria}
                     </td>
-                    <td className="px-6 py-3 text-sm text-gray-900 font-semibold text-right">
+                    <td className="px-6 py-3 text-sm text-text-primary font-semibold text-right">
                       {fmt(p.tarifa)}
                     </td>
-                    <td className="px-6 py-3 text-sm text-gray-500 text-right">
+                    <td className="px-6 py-3 text-sm text-text-muted text-right">
                       {fmt(p.bonificacion)}
                     </td>
                   </tr>
@@ -439,28 +439,28 @@ function PasadasDashboard() {
           </div>
 
           {/* Mobile */}
-          <div className="md:hidden divide-y divide-gray-100">
+          <div className="md:hidden divide-y divide-border-subtle">
             {pasadas.map((p, i) => (
               <div key={i} className="px-5 py-4">
                 <div className="flex justify-between items-start">
                   <div>
-                    <p className="text-sm font-medium text-gray-900">
+                    <p className="text-sm font-medium text-text-primary">
                       {p.fecha}{" "}
-                      <span className="font-mono text-gray-500">
+                      <span className="font-mono text-text-muted">
                         {p.hora}
                       </span>
                       {p.horaPico && (
-                        <span className="ml-1.5 inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-orange-100 text-orange-700">
+                        <span className="ml-1.5 inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-bg-warning text-text-warning">
                           H.PICO
                         </span>
                       )}
                     </p>
-                    <p className="text-xs text-gray-500 mt-0.5">
+                    <p className="text-xs text-text-muted mt-0.5">
                       {p.estacionNombre} &middot; Via {p.via} &middot;{" "}
                       {p.patente}
                     </p>
                   </div>
-                  <p className="text-sm font-bold text-gray-900">
+                  <p className="text-sm font-bold text-text-primary">
                     {fmt(p.tarifa)}
                   </p>
                 </div>
@@ -470,7 +470,7 @@ function PasadasDashboard() {
         </div>
 
         {pasadas.length === 0 && (
-          <div className="text-center py-16 text-gray-500">
+          <div className="text-center py-16 text-text-muted">
             No se encontraron pasadas
           </div>
         )}
@@ -486,7 +486,7 @@ export default function PasadasPage() {
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
             <div className="inline-block h-10 w-10 animate-spin rounded-full border-4 border-blue-600 border-t-transparent" />
-            <p className="mt-4 text-gray-600">Cargando...</p>
+            <p className="mt-4 text-text-secondary">Cargando...</p>
           </div>
         </div>
       }
