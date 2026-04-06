@@ -1,4 +1,3 @@
-import { PDFParse } from "pdf-parse";
 import { descargar } from "./telepase";
 
 export interface PdfLineItem {
@@ -13,9 +12,9 @@ export async function extractPdfText(url: string, cookies: string): Promise<stri
     throw new Error(`Failed to download PDF: ${response.status}`);
   }
   const buffer = Buffer.from(await response.arrayBuffer());
-  const parser = new PDFParse({ data: buffer });
-  const result = await parser.getText();
-  return result.text;
+  const { extractText } = await import("unpdf");
+  const { text } = await extractText(buffer);
+  return Array.isArray(text) ? text.join("\n") : text;
 }
 
 const LINE_REGEX = /(\d+)\s+PEAJE\s+(.+?)[-\s]+CAT\.\s*\d+\s+\S+\s+([\d.,]+)/g;
