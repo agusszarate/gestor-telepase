@@ -45,3 +45,12 @@ model Pasada {
 
   @@unique([fecha, hora, estacion, via, facturaId])
 }
+
+model Estacion {
+  id             Int      @id @default(autoincrement())
+  codigo         String   @unique
+  nombre         String
+  concesionario  String
+  discoveredFrom String?
+  createdAt      DateTime @default(now())
+}
