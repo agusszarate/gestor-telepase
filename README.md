@@ -1,8 +1,31 @@
 # Gestor Telepase
 
+Unofficial web app to view and manage your [TelePASE](https://telepase.com.ar) toll invoices (Argentina) in a friendlier way. Live at [gestor-telepase.zarate.website](https://gestor-telepase.zarate.website).
+
+- Pending and paid invoices, with full history, PDF downloads and the toll crossings of each invoice.
+- Peak-hour detection per toll operator (AUBASA, Corredores Viales, Autopistas del Sol).
+- Mark invoices as paid. Data is stored in PostgreSQL.
+
+**Stack:** Next.js 16, TypeScript, Prisma 7, PostgreSQL, Cheerio, Luxon, Tailwind CSS 4, Docker.
+
+> **Disclaimer:** Gestor Telepase is an independent, personal project. It is not
+> affiliated with, endorsed by or connected to TelePASE or the toll road
+> operators. TelePASE has no public API, so the app signs in to telepase.com.ar
+> with your own credentials and reads your invoices from the site. Your password
+> is only used to sign in and is never stored; the TelePASE session is kept in a
+> signed, HTTP-only cookie for 2 hours.
+
+Licensed under the [MIT License](LICENSE).
+
+## Español
+
+> **Aviso:** proyecto personal e independiente, sin relación con TelePASE ni con
+> las concesionarias viales. La app inicia sesión en telepase.com.ar con tus
+> propias credenciales; la contraseña no se guarda.
+
 App web para visualizar y gestionar las facturas de peaje de [telepase.com.ar](https://telepase.com.ar) de forma mas amigable.
 
-## Funcionalidades
+### Funcionalidades
 
 - Login con credenciales de Telepase
 - Listado de facturas pendientes y pagadas
@@ -13,7 +36,7 @@ App web para visualizar y gestionar las facturas de peaje de [telepase.com.ar](h
 - Marcar facturas como pagadas
 - Persistencia en PostgreSQL
 
-## Stack
+### Stack
 
 - **Next.js 16** (App Router)
 - **Prisma 7** (PostgreSQL con driver adapter)
@@ -21,7 +44,7 @@ App web para visualizar y gestionar las facturas de peaje de [telepase.com.ar](h
 - **Luxon** (manejo de fechas/horas con timezone)
 - **Tailwind CSS 4**
 
-## Setup
+### Setup
 
 ### 1. Clonar e instalar dependencias
 
@@ -59,7 +82,7 @@ npm run dev
 
 Abrir [http://localhost:3000](http://localhost:3000) e ingresar las credenciales de Telepase.
 
-## Mapa de estaciones
+### Mapa de estaciones
 
 El archivo `app/api/pasadas/route.ts` contiene un mapa de codigos de estacion a nombres y concesionarios (`ESTACIONES_COD`). Actualmente incluye:
 
@@ -77,7 +100,7 @@ El archivo `app/api/pasadas/route.ts` contiene un mapa de codigos de estacion a 
 
 Las pasadas de **Autopistas del Sol** usan un formato diferente (nombre completo con ASCENDENTE/DESCENDENTE en lugar de codigo numerico) y se detectan automaticamente.
 
-## Reglas de hora pico
+### Reglas de hora pico
 
 - **AUBASA**: Lunes a Viernes, 7-10h y 17-20h
 - **Corredores Viales / Autopistas del Sol**: Lunes a Viernes, 7-11h y 16-20h. Sabados, Domingos y Feriados: 11-15h sentido ascendente y 17-21h sentido descendente
